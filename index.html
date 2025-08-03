@@ -1,4 +1,9 @@
-<!DOCTYPE html>
+.skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -234,11 +239,39 @@
         }
 
         /* Skills Section */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+        #skills {
+            background: linear-gradient(135deg, #0f0f0f 0%, #1f0808 50%, #0a0a0a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #skills::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(220, 38, 38, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(153, 27, 27, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 70%, rgba(220, 38, 38, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        #skills .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        #skills .section-title {
+            color: #f5f5f5;
+            text-shadow: 0 0 20px rgba(220, 38, 38, 0.3);
+        }
+
+        #skills .section-title::after {
+            background: linear-gradient(45deg, #dc2626, #ef4444, #991b1b);
+            box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
         }
 
         .skill-card {
@@ -251,12 +284,34 @@
             transition: all 0.3s ease;
             box-shadow: 0 5px 20px rgba(220, 38, 38, 0.2);
             border: 1px solid rgba(220, 38, 38, 0.3);
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(220, 38, 38, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+
+        .skill-card:hover::before {
+            opacity: 1;
+            animation: shimmer 1.5s ease-in-out;
         }
 
         .skill-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 40px rgba(220, 38, 38, 0.4);
             border-color: rgba(220, 38, 38, 0.6);
+            background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
         }
 
         .skill-icon {
@@ -301,6 +356,53 @@
             justify-content: center;
             color: #999;
             font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portfolio-video {
+            background: none;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .portfolio-video:hover .video-overlay {
+            opacity: 0;
+        }
+
+        .play-button {
+            width: 60px;
+            height: 60px;
+            background: rgba(220, 38, 38, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        .portfolio-video video {
+            border-radius: 0;
+        }
+
+        .portfolio-video video::-webkit-media-controls-panel {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.8));
         }
 
         .portfolio-content {
@@ -526,6 +628,30 @@
             }
         }
 
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
+            }
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 0 30px rgba(220, 38, 38, 0.8);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
+            }
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .nav-menu {
@@ -661,8 +787,15 @@
                     </div>
                 </div>
                 <div class="portfolio-item">
-                    <div class="portfolio-image">
-                        <img src="project3.jpg" alt="SaaS Product Launch" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div class="portfolio-image portfolio-video">
+                        <video controls poster="saas-thumbnail.jpg" style="width: 100%; height: 100%; object-fit: cover; border-radius: 0;">
+                            <source src="saas-launch-demo.mp4" type="video/mp4">
+                            <source src="saas-launch-demo.webm" type="video/webm">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="video-overlay">
+                            <div class="play-button">▶</div>
+                        </div>
                     </div>
                     <div class="portfolio-content">
                         <h3>SaaS Product Launch</h3>
